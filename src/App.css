@@ -1,10 +1,16 @@
 .App {
   text-align: center;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  justify-content: center;
+  min-height: 100vh;
 }
 
 .App-logo {
   height: 40vmin;
   pointer-events: none;
+  padding-top: 110px;
 }
 
 @media (prefers-reduced-motion: no-preference) {
@@ -13,7 +19,7 @@
   }
 }
 
-.App-header {
+.App-header, .App-main {
   background-color: #282c34;
   min-height: 100vh;
   display: flex;
@@ -22,6 +28,10 @@
   justify-content: center;
   font-size: calc(10px + 2vmin);
   color: white;
+}
+
+.App-header{
+  min-height: 20vh;
 }
 
 .App-link {
@@ -36,3 +46,10 @@
     transform: rotate(360deg);
   }
 }
+
+ul{
+  list-style: none;
+}
+
+
+

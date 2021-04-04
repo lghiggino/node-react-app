@@ -1,0 +1,25 @@
+/* Buttons */
+.btn {
+	color: #016b8f; 
+	background: white; /* Remove background color */
+	border: 2px solid #0099CC; /* Border thickness, line style, and color */
+	border-radius: 30px; /* Adds curve to border corners */
+	text-decoration: none;
+	text-transform: uppercase; /* Make letters uppercase */
+	border: none;
+	padding: 8px 16px;
+	text-align: center;
+	text-decoration: none;
+	display: inline-block;
+	font-size: 16px;
+	margin: 4px 2px;
+	-webkit-transition-duration: 0.3s; /* Safari */
+	transition-duration: 0.3s;
+	cursor: pointer;
+}
+
+
+.btn:hover {    
+    color: white;     
+    background: #016b8f;  
+}

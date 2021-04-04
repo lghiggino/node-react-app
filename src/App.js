@@ -1,73 +1,92 @@
-import React, {useState, useEffect} from "react"
-import logo from './logo.svg';
-import './App.css';
+import React, {useState} from "react"
 import axios from "axios"
 
-const Button = ({handleClick, id, text}) => {
+//Styling
+import logo from './logo.svg';
+import './App.css';
+import "./Styles/Button.css"
+import "./Styles/Input.css"
+
+//Components
+import Button from "./Components/Button"
+import Input from "./Components/Input"
+
+const PokeCard = (props) => { 
+  console.log(props)
   return (
-    <button onClick={handleClick} id={id}>{text}</button>
+    <div>
+      {props.pokemon ? 
+        <article>
+          <h3>{props.pokemon.name}</h3>
+          <p>{props.pokemon.types.map((element, idx) => {
+            return <span key={idx}>{element.type.name} </span>
+          })}</p>
+
+          <img src={props.pokemon.sprites["front_default"]} alt={props.pokemon.name} />
+
+          <ul>
+            {props.pokemon.abilities.map((element, idx) => {
+              return <li key={idx}>{element.ability.name}</li>
+              })}
+          </ul>
+        </article> :
+        "type and click to get pokemon info also..."
+      }
+    </div>
   )
+  
 }
 
 function App() {
-  const [data, setData] = useState([]);
+  const [pokemon, setPokemon] = useState(false);
 
-  // useEffect( () => {
-  //   async function busca(){
-  //     const response = await axios.get("http://localhost:3001/apiTwo")
-  //     console.log(response.data)
-  //     setData(response.data)
-  //   }
-  //   busca()
-  // }, []);
-
-  async function getData(route){
-    console.log("get data from", route)
-    const response = await axios.get(`http://localhost:3001/${route}`)
-    console.log(response.data)
-    setData(response.data)
-  }
-
-  async function fetchApiOne(){
-    console.log("clicked to fetch on api 1")
-    const response = await axios.get("http://localhost:3001/apiOne")
-    console.log(response.data)
-    setData(response.data)
-  }
-
-  async function fetchApiTwo(){
-    console.log("clicked to fetch on api 2")
-    const response = await axios.get("http://localhost:3001/apiTwo")
-    console.log(response.data)
-    setData(response.data)
+  async function getData(){
+    try{
+      const response = await axios.get(`https://pokeapi.co/api/v2/pokemon/${document.querySelector("input").value}/`)
+      setPokemon(response.data)
+    }catch(err){
+      setPokemon(false)
+      console.error(err) 
+    }
   }
 
   return (
     <div className="App">
       <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <div className="control">
-          <Button id="apiOne" handleClick={fetchApiOne} text="apiOne"></Button>
-          <Button id="apiTwo" handleClick={fetchApiTwo} text="apiTwo"></Button>
-          <Button id="getData" handleClick={getData} text="getDataX"></Button>
-          {/* não posso passar o handleClick com uma function call, temos que passar como variável getData(X) não pode */}
-        </div>
-        <p>
-          {data.message}
-        </p>
-        <p>
-          <span>{data.name}</span> <span>{data.surname}</span>
-        </p>
-        <p>
-          {data.dob}
-        </p>
-        
+        <h2> Gotta catch em all!</h2>
       </header>
+      <main className="App-main">
+        <div className="control">
+          <Input className="input-text"placeholder="type your search item here"></Input>
+          <Button className="btn" id="getData" handleClick={getData} text="get a Pokemon"></Button>
+        </div>
+        <div>
+          {pokemon ? 
+            <article>
+              <h3>{pokemon.name}</h3>
+              <p>{pokemon.types.map((element, idx) => {
+                return <span key={idx}>{element.type.name} </span>
+              })}</p>
+
+              <img src={pokemon.sprites["front_default"]} alt={pokemon.name} />
+
+              <ul>
+                {pokemon.abilities.map((element, idx) => {
+                  return <li key={idx}>{element.ability.name}</li>
+                  })}
+              </ul>
+            </article> :
+            "type and click to get pokemon info..."
+          }
+        </div>
+        <PokeCard props={pokemon}></PokeCard>
+      </main>
     </div>
   );
 }
 
 export default App;
+
 
 
 // Co-authored-by: Marcus Pereira <marcuxyz@users.noreply.github.com>
