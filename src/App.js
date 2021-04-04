@@ -2,7 +2,6 @@ import React, {useState} from "react"
 import axios from "axios"
 
 //Styling
-import logo from './logo.svg';
 import './App.css';
 import "./Styles/Button.css"
 import "./Styles/Input.css"
@@ -11,30 +10,27 @@ import "./Styles/Input.css"
 import Button from "./Components/Button"
 import Input from "./Components/Input"
 
-const PokeCard = (props) => { 
-  console.log(props)
+const PokeCard = (poke) => { 
+  console.log(poke)
+  console.log(poke.poke.name)
   return (
     <div>
-      {props.pokemon ? 
         <article>
-          <h3>{props.pokemon.name}</h3>
-          <p>{props.pokemon.types.map((element, idx) => {
+          <h3>{poke.poke.name}</h3>
+          <p>{poke.poke.types.map((element, idx) => {
             return <span key={idx}>{element.type.name} </span>
           })}</p>
 
-          <img src={props.pokemon.sprites["front_default"]} alt={props.pokemon.name} />
+          <img src={poke.poke.sprites["front_default"]} alt={poke.poke.name} />
 
           <ul>
-            {props.pokemon.abilities.map((element, idx) => {
+            {poke.poke.abilities.map((element, idx) => {
               return <li key={idx}>{element.ability.name}</li>
               })}
           </ul>
-        </article> :
-        "type and click to get pokemon info also..."
-      }
+        </article> 
     </div>
   )
-  
 }
 
 function App() {
@@ -42,7 +38,7 @@ function App() {
 
   async function getData(){
     try{
-      const response = await axios.get(`https://pokeapi.co/api/v2/pokemon/${document.querySelector("input").value}/`)
+      const response = await axios.get(`https://pokeapi.co/api/v2/pokemon/${document.querySelector("input").value.toLowerCase()}/`)
       setPokemon(response.data)
     }catch(err){
       setPokemon(false)
@@ -60,7 +56,18 @@ function App() {
           <Input className="input-text"placeholder="type your search item here"></Input>
           <Button className="btn" id="getData" handleClick={getData} text="get a Pokemon"></Button>
         </div>
-        <div>
+         { pokemon ? <PokeCard poke={pokemon} /> : "type and click to get pokemon info..." }
+      </main>
+    </div>
+  );
+}
+
+export default App;
+
+
+/* pokecard original
+
+<div>
           {pokemon ? 
             <article>
               <h3>{pokemon.name}</h3>
@@ -79,14 +86,8 @@ function App() {
             "type and click to get pokemon info..."
           }
         </div>
-        <PokeCard props={pokemon}></PokeCard>
-      </main>
-    </div>
-  );
-}
 
-export default App;
-
+*/
 
 
 // Co-authored-by: Marcus Pereira <marcuxyz@users.noreply.github.com>
