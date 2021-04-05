@@ -10,21 +10,22 @@ import "./Styles/Input.css"
 import Button from "./Components/Button"
 import Input from "./Components/Input"
 
-const PokeCard = (poke) => { 
-  console.log(poke)
-  console.log(poke.poke.name)
+const PokeCard = (props) => { 
   return (
     <div>
         <article>
-          <h3>{poke.poke.name}</h3>
-          <p>{poke.poke.types.map((element, idx) => {
-            return <span key={idx}>{element.type.name} </span>
-          })}</p>
-
-          <img src={poke.poke.sprites["front_default"]} alt={poke.poke.name} />
+          <h3>{props.props.name}</h3>
+          <p>{props.props.types.length > 1 ? 
+                props.props.types.map((element, idx) => {
+                  return <span key={idx}>{element.type.name} </span>
+                }) 
+                : props.props.types[0].type.name}
+          </p>
+          
+          <img src={props.props.sprites["front_default"]} alt={props.props.name} />
 
           <ul>
-            {poke.poke.abilities.map((element, idx) => {
+            {props.props.abilities.map((element, idx) => {
               return <li key={idx}>{element.ability.name}</li>
               })}
           </ul>
@@ -56,7 +57,9 @@ function App() {
           <Input className="input-text"placeholder="type your search item here"></Input>
           <Button className="btn" id="getData" handleClick={getData} text="get a Pokemon"></Button>
         </div>
-         { pokemon ? <PokeCard poke={pokemon} /> : "type and click to get pokemon info..." }
+
+          { pokemon ? <PokeCard props={pokemon} /> : "type and click to get pokemon info..." }
+
       </main>
     </div>
   );
