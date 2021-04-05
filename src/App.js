@@ -68,7 +68,7 @@ function App() {
 export default App;
 
 
-/* pokecard original
+/* pokecard original - legacy code ;)
 
 <div>
           {pokemon ? 
@@ -92,5 +92,3 @@ export default App;
 
 */
 
-
-// Co-authored-by: Marcus Pereira <marcuxyz@users.noreply.github.com>
